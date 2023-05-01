@@ -2,6 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import React, { useState } from "react";
 import { Button } from "@rneui/themed";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function Create({ navigation, route }) {
   let [noteTitle, setNoteTitle] = useState("");
@@ -9,6 +14,22 @@ export default function Create({ navigation, route }) {
 
   let params = route.params;
   let allNotes = params.notes;
+
+  const [fontsLoaded] = useFonts({
+    FiraSansLight: require("../assets/fonts/FiraSans-Light.ttf"),
+    Neucha: require("../assets/fonts/Neucha-Regular.ttf"),
+    FiraSansBold: require("../assets/fonts/FiraSans-Bold.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   function noteList() {
     const newNote = {
@@ -24,12 +45,12 @@ export default function Create({ navigation, route }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={onLayoutRootView}>
       <Text style={styles.titleText}>New Note</Text>
       <Text style={styles.inputText}>Title:</Text>
       <TextInput
         style={styles.input}
-        placeholder="enter title"
+        placeholder="enter note title"
         value={noteTitle}
         onChangeText={setNoteTitle}
       />
@@ -40,11 +61,25 @@ export default function Create({ navigation, route }) {
         numberOfLines={5}
         maxLength={40}
         style={styles.input}
-        placeholder="enter note"
+        placeholder="enter note content"
         value={noteContent}
         onChangeText={setNoteContent}
       />
       <Button
+        buttonStyle={{
+          backgroundColor: "#B2AC88",
+          borderWidth: 2,
+          borderColor: "white",
+          borderRadius: 30,
+        }}
+        containerStyle={{
+          width: 200,
+          marginHorizontal: 50,
+          margineVertical: 10,
+        }}
+        titleStyle={{
+          fontFamily: "FiraSansBold",
+        }}
         onPress={() => {
           noteList();
         }}
@@ -66,13 +101,16 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
-    padding: 1,
+    padding: 5,
+    opacity: "50%",
   },
   titleText: {
-    textDecorationLine: "underline",
     fontSize: 25,
+    fontFamily: "Neucha",
+    padding: 5,
   },
   inputText: {
-    fontVariant: "small-caps",
+    textTransform: "uppercase",
+    fontFamily: "FiraSansLight",
   },
 });

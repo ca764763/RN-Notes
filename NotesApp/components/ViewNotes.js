@@ -13,6 +13,8 @@ export default function AllNotes({ navigation, route }) {
 
   const [fontsLoaded] = useFonts({
     FiraSansLight: require("../assets/fonts/FiraSans-Light.ttf"),
+    Neucha: require("../assets/fonts/Neucha-Regular.ttf"),
+    FiraSansBold: require("../assets/fonts/FiraSans-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -21,18 +23,18 @@ export default function AllNotes({ navigation, route }) {
     }
   }, [fontsLoaded]);
 
-  if (fontsLoaded) {
+  if (!fontsLoaded) {
     return null;
   }
 
   return (
     <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
-      <Text style={styles.title}>Notes</Text>
+      <Text style={styles.title}>Your Notes</Text>
       <FlatList
         data={allNotes}
         extraData={allNotes}
         renderItem={({ item }) => (
-          <View>
+          <View style={styles.note}>
             <Text style={styles.notetitle}>{item.title}</Text>
             <Text style={styles.noteContent}>{item.content}</Text>
           </View>
@@ -51,13 +53,23 @@ const styles = StyleSheet.create({
   },
   notetitle: {
     fontWeight: "bold",
+    fontFamily: "FiraSansBold",
+    textTransform: "uppercase",
   },
   notecontent: {
     fontFamily: "FiraSansLight",
+  },
+  note: {
+    padding: 20,
+    borderStyle: "solid",
+    borderColor: "black",
+    borderWidth: 1,
+    margin: 5,
   },
   title: {
     fontSize: 30,
     padding: 10,
     textTransform: "uppercase",
+    fontFamily: "Neucha",
   },
 });

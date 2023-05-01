@@ -11,6 +11,7 @@ export default function AllNotes({ navigation, route }) {
   console.log(params.notes);
   let allNotes = params.notes;
 
+  //fonts
   const [fontsLoaded] = useFonts({
     FiraSansLight: require("../assets/fonts/FiraSans-Light.ttf"),
     Neucha: require("../assets/fonts/Neucha-Regular.ttf"),

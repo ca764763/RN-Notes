@@ -8,19 +8,12 @@ import { useCallback } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
-const initialNotes = [
-  {
-    key: 1,
-    title: "once again",
-    content: "please",
-  },
-];
-
 export default function Home({ navigation, route }) {
   const params = route.params;
   let allNotes = params.notes;
   console.log(allNotes);
 
+  // fonts
   const [fontsLoaded] = useFonts({
     FiraSansLight: require("../assets/fonts/FiraSans-Light.ttf"),
     Neucha: require("../assets/fonts/Neucha-Regular.ttf"),

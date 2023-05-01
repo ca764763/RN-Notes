@@ -9,12 +9,14 @@ import { useCallback } from "react";
 SplashScreen.preventAutoHideAsync();
 
 export default function Create({ navigation, route }) {
+  // states
   let [noteTitle, setNoteTitle] = useState("");
   let [noteContent, setNoteContent] = useState("");
 
   let params = route.params;
   let allNotes = params.notes;
 
+  //fonts
   const [fontsLoaded] = useFonts({
     FiraSansLight: require("../assets/fonts/FiraSans-Light.ttf"),
     Neucha: require("../assets/fonts/Neucha-Regular.ttf"),
@@ -31,6 +33,7 @@ export default function Create({ navigation, route }) {
     return null;
   }
 
+  //component
   function noteList() {
     const newNote = {
       title: noteTitle,
@@ -43,7 +46,7 @@ export default function Create({ navigation, route }) {
       notes: allNotes,
     });
   }
-
+  // user inputs
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <Text style={styles.titleText}>New Note</Text>

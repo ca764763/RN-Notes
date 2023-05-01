@@ -1,9 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
 
-export default function AllNotes(navigation, route) {
+export default function AllNotes({ navigation, route }) {
   const params = route.params;
-  console.log(params);
+
+  useEffect(() => {
+    if (route.params?.notes) {
+      console.log(params);
+    }
+  }, [route.params?.notes]);
   /*function RenderNotes() {
     data.map((title, content) => {
       return console.log(`${title}: ${content}`);
@@ -11,7 +17,7 @@ export default function AllNotes(navigation, route) {
   }*/
   // render component
   function Maybe() {
-    if (params === undefined) {
+    if (params.notes === undefined) {
       return <Text>no notes here</Text>;
     } else {
       return <Text>THEY PASSED</Text>;

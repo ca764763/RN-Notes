@@ -4,30 +4,6 @@ import React, { useState } from "react";
 import { Button } from "@rneui/themed";
 
 export default function Create({ navigation, route }) {
-  let notes = [
-    {
-      key: 1,
-      title: "once again",
-      content: "please",
-    },
-  ];
-
-  let [allNotes, setAllNotes] = useState([notes]);
-  let [lastUsedKey, setNewKey] = useState(2);
-
-  function addnote() {
-    const newNote = {
-      key: lastUsedKey + 1,
-      title: noteTitle,
-      content: noteContent,
-    };
-    setAllNotes({ allNotes: allNotes.push(newNote) });
-    setNewKey(lastUsedKey + 1);
-    navigation.navigate("Home", {
-      allNotes,
-    });
-  }
-
   let [noteTitle, setNoteTitle] = useState("");
   let [noteContent, setNoteContent] = useState("");
 
@@ -54,7 +30,11 @@ export default function Create({ navigation, route }) {
       />
       <Button
         onPress={() => {
-          addnote();
+          navigation.navigate({
+            name: "Home",
+            params: { title: noteTitle, content: noteContent },
+            merge: true,
+          });
         }}
         title="Add Note"
       ></Button>

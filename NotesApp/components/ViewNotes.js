@@ -1,33 +1,44 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import { FlatList, StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function AllNotes({ navigation, route }) {
   const params = route.params;
+  console.log(params.notes);
+  let allNotes = params.notes;
 
-  useEffect(() => {
-    if (route.params?.notes) {
-      console.log(params);
+  const [fontsLoaded] = useFonts({
+    FiraSansLight: require("../assets/fonts/FiraSans-Light.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
     }
-  }, [route.params?.notes]);
-  /*function RenderNotes() {
-    data.map((title, content) => {
-      return console.log(`${title}: ${content}`);
-    });
-  }*/
-  // render component
-  function Maybe() {
-    if (params.notes === undefined) {
-      return <Text>no notes here</Text>;
-    } else {
-      return <Text>THEY PASSED</Text>;
-    }
+  }, [fontsLoaded]);
+
+  if (fontsLoaded) {
+    return null;
   }
+
   return (
-    <View style={styles.container}>
-      <Maybe />
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
+      <Text style={styles.title}>Notes</Text>
+      <FlatList
+        data={allNotes}
+        extraData={allNotes}
+        renderItem={({ item }) => (
+          <View>
+            <Text style={styles.notetitle}>{item.title}</Text>
+            <Text style={styles.noteContent}>{item.content}</Text>
+          </View>
+        )}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -37,5 +48,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  notetitle: {
+    fontWeight: "bold",
+  },
+  notecontent: {
+    fontFamily: "FiraSansLight",
+  },
+  title: {
+    fontSize: 30,
+    padding: 10,
+    textTransform: "uppercase",
   },
 });

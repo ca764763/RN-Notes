@@ -7,6 +7,22 @@ export default function Create({ navigation, route }) {
   let [noteTitle, setNoteTitle] = useState("");
   let [noteContent, setNoteContent] = useState("");
 
+  let params = route.params;
+  let allNotes = params.notes;
+
+  function noteList() {
+    const newNote = {
+      title: noteTitle,
+      content: noteContent,
+    };
+    allNotes.push(newNote);
+
+    navigation.navigate("Home", {
+      name: "Home",
+      notes: allNotes,
+    });
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>New Note</Text>
@@ -30,11 +46,7 @@ export default function Create({ navigation, route }) {
       />
       <Button
         onPress={() => {
-          navigation.navigate({
-            name: "Home",
-            params: { title: noteTitle, content: noteContent },
-            merge: true,
-          });
+          noteList();
         }}
         title="Add Note"
       ></Button>

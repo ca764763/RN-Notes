@@ -19,7 +19,11 @@ export default function App() {
           headerTitleAlign: "center",
         }}
       >
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          initialParams={{ notes: [] }}
+        />
         <Stack.Screen name="Create" component={Create} />
         <Stack.Screen name="All" component={AllNotes} />
       </Stack.Navigator>

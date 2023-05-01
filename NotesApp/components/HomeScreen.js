@@ -12,38 +12,9 @@ const initialNotes = [
 ];
 
 export default function Home({ navigation, route }) {
-  useEffect(() => {
-    if (route.params?.title) {
-      noteList();
-    }
-  }, [route.params?.title]);
-
   const params = route.params;
-
-  let [allNotes, setAllNotes] = useState([]);
-  let [lastUsedKey, setNewKey] = useState(1);
-
-  function noteList() {
-    const newNote = {
-      key: lastUsedKey + 1,
-      title: route.params?.title,
-      content: route.params?.content,
-    };
-    setAllNotes(allNotes.push(newNote));
-    setNewKey(lastUsedKey + 1);
-    console.log(allNotes);
-  }
-
-  /* function seeNotes() {
-    if (params === undefined) {
-      navigation.navigate("All");
-    } else {
-      navigation.navigate({
-        name: "All",
-        notes: allNotes,
-      });
-    }
-  }*/
+  let allNotes = params.notes;
+  console.log(allNotes);
 
   return (
     <View style={styles.container}>
@@ -51,6 +22,7 @@ export default function Home({ navigation, route }) {
         title="Create New Note"
         onPress={() =>
           navigation.navigate("Create", {
+            name: "Create",
             notes: allNotes,
           })
         }
@@ -58,7 +30,7 @@ export default function Home({ navigation, route }) {
       <Button
         title="View All Notes"
         onPress={() =>
-          navigation.navigate({
+          navigation.navigate("All", {
             name: "All",
             notes: allNotes,
           })
